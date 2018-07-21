@@ -1,31 +1,59 @@
 package main
 
 import (
+	"flag"
 	"fmt"
-	"github.com/tealeg/xlsx"
 	"github.com/0990/taberr/printer"
+	"github.com/tealeg/xlsx"
 )
 
+var (
+	paramPackageName = flag.String("package", "emsg", "package name")
+	paramEnumName    = flag.String("enum_name", "Err", "enum name")
+	paramProtoOut    = flag.String("proto_out", "game_err.proto", "output protobuf define (*.proto)")
+	paramLuaOut      = flag.String("lua_out", "game_err.lua", "output lua code (*.lua)")
+)
 
 func main() {
-	g:=printer.NewGlobal()
-	g.Data =GetXLSXData()
-	g.AddOutputType("proto", "xujialong.proto")
+	flag.Parse()
+
+	var fileName string
+	for _, v := range flag.Args() {
+		fileName = v
+	}
+
+	g := printer.NewGlobal()
+	g.PackageName = *paramPackageName
+	g.EnumName = *paramEnumName
+	g.AddOutputType("proto", *paramProtoOut)
+	g.AddOutputType("lua", *paramLuaOut)
+	g.AddOutputType("lua1", "xujialong1.lua")
+	if !GetXLSXData(g, fileName) {
+		return
+	}
+
 	g.Print()
 }
 
-
-func GetXLSXData()[]printer.Data{
-	xlFile, err := xlsx.OpenFile("Item.xlsx")
+func GetXLSXData(g *printer.Global, fileName string) bool {
+	xlFile, err := xlsx.OpenFile(fileName)
 	if err != nil {
 		fmt.Println(err.Error())
+		return false
 	}
-	rowDatas := make([]printer.Data, 0)
+	//rowDatas := make([]printer.Data, 0)
 	for _, sheet := range xlFile.Sheets {
 		fmt.Println("sheet name:", sheet.Name)
 		fmt.Println("rowCount:", len(sheet.Rows))
+
+		g.ErrIDLabel = sheet.Rows[0].Cells[0].String()
+		g.ErrTypeLabel = sheet.Rows[0].Cells[1].String()
+		g.ErrMsgLabel = sheet.Rows[0].Cells[2].String()
 		//每一行
-		for _, row := range sheet.Rows {
+		for rowIndex, row := range sheet.Rows {
+			if rowIndex == 0 {
+				continue
+			}
 			//每个单元
 			rowData := printer.Data{}
 			validData := false
@@ -49,9 +77,9 @@ func GetXLSXData()[]printer.Data{
 				}
 			}
 			if validData {
-				rowDatas = append(rowDatas, rowData)
+				g.Data = append(g.Data, rowData)
 			}
 		}
 	}
-	return rowDatas
+	return true
 }

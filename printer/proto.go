@@ -79,7 +79,7 @@ func (self *protoPrinter) Run(g *Global) *Stream {
 	m.XlsxName = "Item.xlsx"
 
 	var protoD protoDescriptor
-	protoD.Name = "enumName"
+	protoD.Name = g.EnumName
 	// 遍历所有
 	for _, data := range g.Data {
 		protoD.ProtoFields = append(protoD.ProtoFields, protoFieldDescriptor{

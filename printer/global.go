@@ -6,26 +6,28 @@ type Data struct {
 	ErrMsg  string
 }
 
-type Global struct{
-	PackageName string
+type Global struct {
+	PackageName  string
+	EnumName     string
 	ProtoVersion int
-	Version string
-	ErrIDLabel string
+	Version      string
+	ErrIDLabel   string
 	ErrTypeLabel string
-	ErrMsgLabel string
-	Data []Data
+	ErrMsgLabel  string
+	Data         []Data
 
 	Printers []*PrinterContext
 }
 
 func NewGlobal() *Global {
 	self := &Global{
-		ErrIDLabel:"ErrID",
-		ErrTypeLabel:"ErrType",
-		ErrMsgLabel:"ErrMsg",
-		PackageName:"emsg",
-		ProtoVersion:3,
-		Version:"0.0.1",
+		ErrIDLabel:   "ErrID",
+		ErrTypeLabel: "ErrType",
+		ErrMsgLabel:  "ErrMsg",
+		PackageName:  "emsg",
+		ProtoVersion: 3,
+		Version:      "0.0.1",
+		EnumName:     "Err",
 	}
 
 	return self
@@ -59,4 +61,3 @@ func (self *Global) Print() bool {
 	return true
 
 }
-
