@@ -3,27 +3,31 @@ package main
 import (
 	"fmt"
 	"github.com/tealeg/xlsx"
+	"github.com/0990/taberr/printer"
 )
 
-type Data struct {
-	errID   int32
-	errType string
-	errMsg  string
-}
 
 func main() {
+	g:=printer.NewGlobal()
+	g.Data =GetXLSXData()
+	g.AddOutputType("proto", "xujialong.proto")
+	g.Print()
+}
+
+
+func GetXLSXData()[]printer.Data{
 	xlFile, err := xlsx.OpenFile("Item.xlsx")
 	if err != nil {
 		fmt.Println(err.Error())
 	}
-	rowDatas := make([]Data, 0)
+	rowDatas := make([]printer.Data, 0)
 	for _, sheet := range xlFile.Sheets {
 		fmt.Println("sheet name:", sheet.Name)
 		fmt.Println("rowCount:", len(sheet.Rows))
 		//每一行
 		for _, row := range sheet.Rows {
 			//每个单元
-			rowData := Data{}
+			rowData := printer.Data{}
 			validData := false
 			for i, cell := range row.Cells {
 				switch i {
@@ -32,15 +36,15 @@ func main() {
 					if err != nil {
 						break
 					}
-					rowData.errID = int32(intValue)
+					rowData.ErrID = int32(intValue)
 				case 1:
 					text := cell.String()
 					if text == "" {
 						break
 					}
-					rowData.errType = text
+					rowData.ErrType = text
 				case 2:
-					rowData.errMsg = cell.String()
+					rowData.ErrMsg = cell.String()
 					validData = true
 				}
 			}
@@ -48,7 +52,6 @@ func main() {
 				rowDatas = append(rowDatas, rowData)
 			}
 		}
-
 	}
-	fmt.Println(rowDatas)
+	return rowDatas
 }
