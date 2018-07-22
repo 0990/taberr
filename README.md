@@ -8,9 +8,9 @@
 格式参照:example/sample.xlsx
 
 ### 表头
-	错误ID名称,错误Type名称,错误描述名称
+错误ID名称,错误Type名称,错误描述名称<br>
 ![sheet](doc/sheet.png)<br>
-	这样导出后的lua文件里的名称就是你定义的
+这样导出后的lua文件里的名称就是你定义的<br>
 ![lua](doc/lua.png)
 
 ### 表中数据:
@@ -32,7 +32,7 @@ example/runParams.bat
 
 taberr -package packageName -enum_name enumName -proto_out output/err.proto -lua_out output/err.lua Sample.xlsx
 
-####参数说明
+#### 参数说明
 -package 包名<br>
 -enum_name 枚举名（proto中的枚举类型)<br>
 -proto_out proto输出文件<br>
