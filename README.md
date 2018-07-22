@@ -9,7 +9,7 @@
 
 ### 表头
 	错误ID名称,错误Type名称,错误描述名称
-![sheet](doc/sheet.png)
+![sheet](doc/sheet.png)<br>
 	这样导出后的lua文件里的名称就是你定义的
 ![lua](doc/lua.png)
 
@@ -23,21 +23,21 @@
 
 ### 简单范例
 
-参照example/run.bat
+example/run.bat
 
 taberr Sample.xlsx
 
 ### 自定义输出
-参照example/runParams.bat
+example/runParams.bat
 
 taberr -package packageName -enum_name enumName -proto_out output/err.proto -lua_out output/err.lua Sample.xlsx
 
-参数说明
+####参数说明
 -package 包名<br>
--enum_name 枚举名（proto中的枚举类型)
--proto_out proto输出文件
--lua_out lua输出文件
+-enum_name 枚举名（proto中的枚举类型)<br>
+-proto_out proto输出文件<br>
+-lua_out lua输出文件<br>
 
 # 备注
-具体使用可参照sample目录
+具体使用可参照sample目录<br>
 代码借鉴于github.com/davyxu/tabtoy 一个很不错的表格配置导出工具
