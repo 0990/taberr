@@ -9,13 +9,13 @@ package packageName;
 enum enumName
 {	
 
-	systemfailed = 2; // 系统失败
+	Invalid = 0; 
+
+	systemfailed = 2; 
 
 	loginfailed = 1; // 登录失败
 
 	systemfailed45 = 100; // 系统失败78
-
-	systemfailed45 = 100; // 何莉莉
 
 	SYstemHello = 101; // 许家龙
 

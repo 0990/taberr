@@ -3,11 +3,11 @@
 
 local tab = {
 	packageName = {
-		{ ErrorType = "systemfailed", ErrorMsg = 系统失败 	},
-		{ ErrorType = "loginfailed", ErrorMsg = 登录失败 	},
-		{ ErrorType = "systemfailed45", ErrorMsg = 系统失败78 	},
-		{ ErrorType = "systemfailed45", ErrorMsg = 何莉莉 	},
-		{ ErrorType = "SYstemHello", ErrorMsg = 许家龙 	}
+		{ ErrorType = "Invalid", ErrorMsg = "" 	},
+		{ ErrorType = "systemfailed", ErrorMsg = "" 	},
+		{ ErrorType = "loginfailed", ErrorMsg = "登录失败" 	},
+		{ ErrorType = "systemfailed45", ErrorMsg = "系统失败78" 	},
+		{ ErrorType = "SYstemHello", ErrorMsg = "许家龙" 	}
 	}
 
 }
@@ -21,9 +21,9 @@ end
 
 tab.Enum = {
 	enumName = {
+		Invalid = 0,
 		systemfailed = 2,
 		loginfailed = 1,
-		systemfailed45 = 100,
 		systemfailed45 = 100,
 		SYstemHello = 101,
 	},

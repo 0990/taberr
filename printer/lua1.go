@@ -47,7 +47,7 @@ func printTableLua1(g *Global, stream *Stream) bool {
 		stream.Printf(", ")
 		stream.Printf("%s = %s", g.ErrTypeLabel, valueWrapperLua(rowData.ErrType))
 		stream.Printf(", ")
-		stream.Printf("%s = %s", g.ErrMsgLabel, rowData.ErrMsg)
+		stream.Printf("%s = %s", g.ErrMsgLabel, valueWrapperLua(rowData.ErrMsg))
 		// 每一行结束
 		stream.Printf(" 	}")
 

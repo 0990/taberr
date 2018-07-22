@@ -38,13 +38,11 @@ func main() {
 func GetXLSXData(g *printer.Global, fileName string) bool {
 	xlFile, err := xlsx.OpenFile(fileName)
 	if err != nil {
-		fmt.Println(err.Error())
+		fmt.Printf("file('%s') read error,%s", fileName, err.Error())
 		return false
 	}
-	//rowDatas := make([]printer.Data, 0)
 	for _, sheet := range xlFile.Sheets {
-		fmt.Println("sheet name:", sheet.Name)
-		fmt.Println("rowCount:", len(sheet.Rows))
+		fmt.Printf("read sheet:%s,rowCount:%d\n", sheet.Name, len(sheet.Rows))
 
 		g.ErrIDLabel = sheet.Rows[0].Cells[0].String()
 		g.ErrTypeLabel = sheet.Rows[0].Cells[1].String()
@@ -71,12 +69,20 @@ func GetXLSXData(g *printer.Global, fileName string) bool {
 						break
 					}
 					rowData.ErrType = text
+					validData = true
 				case 2:
 					rowData.ErrMsg = cell.String()
-					validData = true
 				}
 			}
 			if validData {
+				if g.CheckErrIDRepeate(rowData.ErrID) {
+					fmt.Printf("errID repeat:%d row:%d,sheet:%s", rowData.ErrID, rowIndex+1, sheet.Name)
+					return false
+				}
+				if g.CheckErrTypeRepeate(rowData.ErrType) {
+					fmt.Printf("errType repeat:%s row:%d sheet:%s", rowData.ErrType, rowIndex+1, sheet.Name)
+					return false
+				}
 				g.Data = append(g.Data, rowData)
 			}
 		}
