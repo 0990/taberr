@@ -27,7 +27,6 @@ func main() {
 	g.EnumName = *paramEnumName
 	g.AddOutputType("proto", *paramProtoOut)
 	g.AddOutputType("lua", *paramLuaOut)
-	g.AddOutputType("lua1", "xujialong1.lua")
 	if !GetXLSXData(g, fileName) {
 		return
 	}

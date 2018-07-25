@@ -47,12 +47,11 @@ func printTableLua(g *Global, stream *Stream) bool {
 
 		// 每一行开始
 		stream.Printf("		{ ")
+		stream.Printf("%s = %d", g.ErrIDLabel, rowData.ErrID)
+		stream.Printf(", ")
 		stream.Printf("%s = %s", g.ErrTypeLabel, valueWrapperLua(rowData.ErrType))
-		//stream.Printf("%s")
 		stream.Printf(", ")
 		stream.Printf("%s = %s", g.ErrMsgLabel, valueWrapperLua(rowData.ErrMsg))
-		//stream.Printf("")
-
 		// 每一行结束
 		stream.Printf(" 	}")
 
@@ -71,14 +70,14 @@ func printTableLua(g *Global, stream *Stream) bool {
 // 收集需要构建的索引的类型
 func genLuaEnumCode(g *Global, stream *Stream) bool {
 
-	stream.Printf("\ntab.Enum = {\n")
-	stream.Printf("	%s = {\n", g.EnumName)
-	// 遍历字段
-	for _, rowData := range g.Data {
-		stream.Printf("		%s = %d,\n", rowData.ErrType, rowData.ErrID)
-	}
-	stream.Printf("	},\n")
-	stream.Printf("}\n")
+	//stream.Printf("\ntab.Enum = {\n")
+	//stream.Printf("	%s = {\n", g.EnumName)
+	//// 遍历字段
+	//for _, rowData := range g.Data {
+	//	stream.Printf("		%s = %d,\n", rowData.ErrType, rowData.ErrID)
+	//}
+	//stream.Printf("	},\n")
+	//stream.Printf("}\n")
 
 	return true
 
@@ -87,18 +86,18 @@ func genLuaEnumCode(g *Global, stream *Stream) bool {
 // 收集需要构建的索引的类型
 func genLuaIndexCode(g *Global, stream *Stream) bool {
 
-	mapperVarName := fmt.Sprintf("tab.%sBy%s", g.PackageName, g.ErrTypeLabel)
+	mapperVarName := fmt.Sprintf("tab.%sBy%s", g.PackageName, g.ErrIDLabel)
 
-	stream.Printf("\n-- %s\n", g.ErrTypeLabel)
+	stream.Printf("\n-- %s\n", g.ErrIDLabel)
 	stream.Printf("%s = {}\n", mapperVarName)
 	stream.Printf("for _, rec in pairs(tab.%s) do\n", g.PackageName)
-	stream.Printf("\t%s[rec.%s] = rec\n", mapperVarName, g.ErrTypeLabel)
+	stream.Printf("\t%s[rec.%s] = rec\n", mapperVarName, g.ErrIDLabel)
 	stream.Printf("end\n")
 	return true
 }
 
 func init() {
 
-	RegisterPrinter("lua", &luaPrinter1{})
+	RegisterPrinter("lua", &luaPrinter{})
 
 }
