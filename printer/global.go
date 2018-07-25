@@ -7,6 +7,7 @@ type Data struct {
 }
 
 type Global struct {
+	FileName         string
 	PackageName      string
 	EnumName         string
 	ProtoVersion     int

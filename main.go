@@ -5,13 +5,14 @@ import (
 	"fmt"
 	"github.com/0990/taberr/printer"
 	"github.com/tealeg/xlsx"
+	"os"
 )
 
 var (
 	paramPackageName = flag.String("package", "emsg", "package name")
 	paramEnumName    = flag.String("enum_name", "Err", "enum name")
-	paramProtoOut    = flag.String("proto_out", "game_err.proto", "output protobuf define (*.proto)")
-	paramLuaOut      = flag.String("lua_out", "game_err.lua", "output lua code (*.lua)")
+	paramProtoOut    = flag.String("proto_out", "", "output protobuf define (*.proto)")
+	paramLuaOut      = flag.String("lua_out", "", "output lua code (*.lua)")
 )
 
 func main() {
@@ -25,10 +26,16 @@ func main() {
 	g := printer.NewGlobal()
 	g.PackageName = *paramPackageName
 	g.EnumName = *paramEnumName
-	g.AddOutputType("proto", *paramProtoOut)
-	g.AddOutputType("lua", *paramLuaOut)
+	if *paramProtoOut != "" {
+		g.AddOutputType("proto", *paramProtoOut)
+	}
+
+	if *paramLuaOut != "" {
+		g.AddOutputType("lua", *paramLuaOut)
+	}
+
 	if !GetXLSXData(g, fileName) {
-		return
+		os.Exit(1)
 	}
 
 	g.Print()
@@ -40,6 +47,7 @@ func GetXLSXData(g *printer.Global, fileName string) bool {
 		fmt.Printf("file('%s') read error,%s", fileName, err.Error())
 		return false
 	}
+	g.FileName = fileName
 	for _, sheet := range xlFile.Sheets {
 		fmt.Printf("read sheet:%s,rowCount:%d\n", sheet.Name, len(sheet.Rows))
 

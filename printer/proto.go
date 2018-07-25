@@ -76,7 +76,7 @@ func (self *protoPrinter) Run(g *Global) *Stream {
 	m.Package = g.PackageName
 	m.ProtoVersion = g.ProtoVersion
 	m.ToolVersion = g.Version
-	m.XlsxName = "Item.xlsx"
+	m.XlsxName = g.FileName
 
 	var protoD protoDescriptor
 	protoD.Name = g.EnumName
