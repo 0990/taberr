@@ -82,6 +82,9 @@ func (self *protoPrinter) Run(g *Global) *Stream {
 	protoD.Name = g.EnumName
 	// 遍历所有
 	for _, data := range g.Data {
+		if data.ErrType == "" {
+			continue
+		}
 		protoD.ProtoFields = append(protoD.ProtoFields, protoFieldDescriptor{
 			Name:       data.ErrType,
 			CommentRaw: data.ErrMsg,

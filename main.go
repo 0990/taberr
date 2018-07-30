@@ -63,22 +63,24 @@ func GetXLSXData(g *printer.Global, fileName string) bool {
 			rowData := printer.Data{}
 			validData := false
 			for i, cell := range row.Cells {
-				switch i {
-				case 0:
+				if i == 0 {
+					text := cell.String()
+					if text == "" {
+						break
+					}
 					intValue, err := cell.Int64()
 					if err != nil {
 						break
 					}
 					rowData.ErrID = int32(intValue)
-				case 1:
+				} else if i == 1 {
 					text := cell.String()
-					if text == "" {
-						break
-					}
 					rowData.ErrType = text
 					validData = true
-				case 2:
+				} else if i == 2 {
 					rowData.ErrMsg = cell.String()
+				} else {
+					break
 				}
 			}
 			if validData {
@@ -86,9 +88,11 @@ func GetXLSXData(g *printer.Global, fileName string) bool {
 					fmt.Printf("errID repeat:%d row:%d,sheet:%s", rowData.ErrID, rowIndex+1, sheet.Name)
 					return false
 				}
-				if g.CheckErrTypeRepeate(rowData.ErrType) {
-					fmt.Printf("errType repeat:%s row:%d sheet:%s", rowData.ErrType, rowIndex+1, sheet.Name)
-					return false
+				if rowData.ErrType != "" {
+					if g.CheckErrTypeRepeate(rowData.ErrType) {
+						fmt.Printf("errType repeat:%s row:%d sheet:%s", rowData.ErrType, rowIndex+1, sheet.Name)
+						return false
+					}
 				}
 				g.Data = append(g.Data, rowData)
 			}
