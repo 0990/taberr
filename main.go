@@ -13,6 +13,7 @@ var (
 	paramEnumName    = flag.String("enum_name", "Err", "enum name")
 	paramProtoOut    = flag.String("proto_out", "", "output protobuf define (*.proto)")
 	paramLuaOut      = flag.String("lua_out", "", "output lua code (*.lua)")
+	paramJsonOut     = flag.String("json_out", "", "output json(*.json)")
 )
 
 func main() {
@@ -32,6 +33,10 @@ func main() {
 
 	if *paramLuaOut != "" {
 		g.AddOutputType("lua", *paramLuaOut)
+	}
+
+	if *paramJsonOut != "" {
+		g.AddOutputType("json", *paramJsonOut)
 	}
 
 	if !GetXLSXData(g, fileName) {
