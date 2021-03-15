@@ -7,8 +7,8 @@ func (self *jsonPrinter) Run(g *Global) *Stream {
 	bf := NewStream()
 	bf.Printf("{\n")
 
-	bf.Printf("	\"Tool\": \"github.com/0990/taberr\",\n")
-	bf.Printf("	\"Version\": \"%s\",\n", g.Version)
+	//bf.Printf("	\"Tool\": \"github.com/0990/taberr\",\n")
+	//bf.Printf("	\"Version\": \"%s\",\n", g.Version)
 
 	printTableJson(g, bf)
 	bf.Printf("\n}")
